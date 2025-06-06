@@ -6,7 +6,7 @@ import ViewExpensesScreen from '../Screens/ViewExpensesScreen';
 import AddExpenseScreen from '../Screens/AddExpenseScreen';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 const Stack = createNativeStackNavigator();
-const TopTab = createMaterialTopTabNavigator();
+
 
 const MainApp = () => {
     const scheme = useColorScheme();
@@ -19,12 +19,6 @@ const MainApp = () => {
                 <Stack.Screen name="ViewExpenses" component={ViewExpensesScreen} options={{ title: 'Expenses' }} />
                 <Stack.Screen name="AddExpense" component={AddExpenseScreen} options={{ title: 'Add Expense' }} />
             </Stack.Navigator>
-            {/* <TopTab.Navigator 
-            options={{ headerShown: false }}
-            >
-                <TopTab.Screen name="ViewExpenses" component={ViewExpensesScreen} options={{ title: 'Expenses' }} />
-                <TopTab.Screen name="AddExpense" component={AddExpenseScreen} options={{ title: 'Add Expense' }} />
-            </TopTab.Navigator> */}
         </NavigationContainer>
     );
 }
