@@ -11,6 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import RNFS from 'react-native-fs';
 import Papa from 'papaparse';
 import Share from 'react-native-share';
+import { Button, FAB } from 'react-native-paper';
 const ViewExpensesScreen = ({ navigation }) => {
     const [date, setDate] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
@@ -42,18 +43,11 @@ const ViewExpensesScreen = ({ navigation }) => {
         await loadExpenses();
         setRefreshing(false);
     };
-    // const handleDateChange = (event, selectedDate) => {
-    //     const currentDate = selectedDate || date;
-    //     setShowDatePicker(Platform.OS === 'ios');
-    //     console.log('Selected Date:', currentDate);
-    //     setFilterDate(currentDate);
-    // };
     const handleDateFilter = (event, selectedDate) => {
         if (event.type === 'set') {
             const picked = selectedDate || date;
             setDate(picked);
             setShowDatePicker(Platform.OS === 'ios');
-
             // Format to match saved expense.date
             const formatted = picked.toISOString().split('T')[0]; // "YYYY-MM-DD"
             setFilterDate(formatted);
@@ -71,7 +65,6 @@ const ViewExpensesScreen = ({ navigation }) => {
     const handleLongPress = (item) => {
         // setActivateDelete(!activateDelete);
         // setDeleteId(item.id);
-
         Alert.alert(
             'Delete Expense?',
             `Are you sure you want to delete this expense? ${item.title} - ₹${item.amount}`,
@@ -93,9 +86,7 @@ const ViewExpensesScreen = ({ navigation }) => {
         <View style={styles.itemRenderView}>
             <TouchableOpacity
                 activeOpacity={0.7}
-                onLongPress={
-                    () => handleLongPress(item)
-                }
+                onLongPress={() => handleLongPress(item)}
                 style={[styles.itemView]}>
                 <View>
                     <Text style={styles.textExpense}>{item.title} - ₹{item.amount}</Text>
@@ -110,12 +101,6 @@ const ViewExpensesScreen = ({ navigation }) => {
         </View>
 
     );
-    // const formatDate = (itemDate) => {
-    //     console.log('Item Date:', itemDate);
-    //     const d = new Date(itemDate);
-    //     return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
-
-    // };
     const formatDate = (isoDate) => {
         if (!isoDate) return 'N/A';
         const [year, month, day] = isoDate.split('-');
@@ -141,7 +126,7 @@ const ViewExpensesScreen = ({ navigation }) => {
             const options = {
                 url: 'file://' + path,
                 type: 'text/csv',
-                filename: 'expenses', // 👈 this sets file name for some apps
+                filename: 'expenses',
                 title: 'Exported Expenses CSV',
                 failOnCancel: false,
             };
@@ -156,7 +141,7 @@ const ViewExpensesScreen = ({ navigation }) => {
             <StatusBar barStyle={'dark-content'} backgroundColor={'#fff'} />
             <View style={styles.headerView}>
                 <Text style={styles.total}>
-                    Total Spent: ₹{expenses.reduce((sum, e) => sum + parseFloat(e.amount), 0)}
+                    Total Spent: ₹{expenses.reduce((sum, e) => sum + parseFloat(e.amount), 0).toFixed(2)}
                 </Text>
             </View>
             {/* filter Header */}
@@ -227,7 +212,7 @@ const ViewExpensesScreen = ({ navigation }) => {
                 </View>
                 {
                     activateDelete && (<TouchableOpacity
-                        
+
                         onPress={() => handleDeleteExpense(deleteId)}
                         activeOpacity={0.7}
                     >
@@ -249,22 +234,38 @@ const ViewExpensesScreen = ({ navigation }) => {
                         }}>No expenses found.</Text>
                     </View>
                 }
+                contentContainerStyle={{
+                    paddingBottom: 20
+                }}
             />
-          
-            <TouchableOpacity
+            <FAB
+                style={styles.addBtn}
+                onPress={() => navigation.navigate('AddExpense')}
+                icon="plus"
+            // label="+"
+            >
+            </FAB>
+
+            {/* <TouchableOpacity
                 activeOpacity={0.7}
                 style={styles.addBtn}
                 onPress={() => navigation.navigate('AddExpense')}
             >
                 <Ionicons name="add" size={28} color="white" />
-            </TouchableOpacity>
-            <TouchableOpacity
+            </TouchableOpacity> */}
+            {/* <TouchableOpacity
                 activeOpacity={0.7}
                 onPress={handleExportCSV} style={styles.exportBtn}>
-                {/* <Feather name="download" size={24} color="white" /> */}
                 <Entypo name="export" size={24} color="white" />
-            </TouchableOpacity>
-          
+            </TouchableOpacity> */}
+            <FAB
+                style={styles.exportBtn}
+                onPress={handleExportCSV}
+                icon="share"
+
+            >
+            </FAB>
+
         </SafeAreaView>
     );
 }
@@ -305,7 +306,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 100,
         right: 50,
-        backgroundColor: '#007bff',
+        // backgroundColor: '#007bff',
         width: 56,
         height: 56,
         borderRadius: 28,
@@ -313,6 +314,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         elevation: 5,
         shadowColor: '#000',
+
     },
     headerView: {
         padding: 12,
@@ -342,7 +344,7 @@ const styles = StyleSheet.create({
         padding: 10,
         backgroundColor: '#28a745',
         alignSelf: 'center',
-     
+
         position: 'absolute',
         bottom: 100,
         left: 50,
@@ -404,6 +406,6 @@ const styles = StyleSheet.create({
         color: '#000',
         fontSize: 16,
     },
-    
+
 
 });

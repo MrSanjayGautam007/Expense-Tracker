@@ -5,7 +5,7 @@ const EXPENSES_KEY = 'EXPENSES_KEY';
 export const saveExpense = async (expense) => {
   const existing = await getExpenses();
   const updated = [expense, ...existing];
-  await AsyncStorage.setItem(EXPENSES_KEY, JSON.stringify(updated));
+  await AsyncStorage.setItem(EXPENSES_KEY, JSON.stringify(updated)); // Save the updated expenses array
 };
 
 export const getExpenses = async () => {

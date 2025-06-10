@@ -20,16 +20,15 @@ const AddExpenseScreen = () => {
         const formattedDate = date.toISOString().split('T')[0]; // "2025-05-30"
         if (!amount || !category || !date || !title) {
             Alert.alert('Message','All fields are required');
-            return;
+            return; 
         }
         const expense = { id: Date.now(), amount, category, date:formattedDate, title };
         await saveExpense(expense);
         Alert.alert('Message','Expense saved successfully');
         setAmount('');
-        setCategory('');
+        setCategory(''); 
         setDate('');
-
-        navigation.goBack();
+        navigation.goBack(); 
     };
     const handleDateChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
@@ -122,7 +121,9 @@ const AddExpenseScreen = () => {
                     />
                 )}
                 <View style={{ gap: 10 }}>
-                    <Button mode='elevated' onPress={handleSave} style={{ marginTop: 20 }}>
+                    <Button mode='contained' onPress={handleSave} style={{ marginTop: 20 }}
+                    disabled={!title}
+                    >
                         Save Expense
                     </Button>
                     <Button mode='elevated' onPress={() => navigation.goBack()} style={{ marginTop: 10 }}>

@@ -15,6 +15,7 @@ const MainApp = () => {
             <Stack.Navigator screenOptions={{
                 headerShown: false,
                 animation: 'fade_from_bottom',
+                 orientation:'portrait'
             }}>
                 <Stack.Screen name="ViewExpenses" component={ViewExpensesScreen} options={{ title: 'Expenses' }} />
                 <Stack.Screen name="AddExpense" component={AddExpenseScreen} options={{ title: 'Add Expense' }} />
