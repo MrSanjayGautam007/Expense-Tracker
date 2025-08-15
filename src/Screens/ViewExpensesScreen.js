@@ -258,13 +258,13 @@ const ViewExpensesScreen = ({ navigation }) => {
                 onPress={handleExportCSV} style={styles.exportBtn}>
                 <Entypo name="export" size={24} color="white" />
             </TouchableOpacity> */}
-            <FAB
+            {/* <FAB
                 style={styles.exportBtn}
                 onPress={handleExportCSV}
                 icon="share"
 
             >
-            </FAB>
+            </FAB> */}
 
         </SafeAreaView>
     );
